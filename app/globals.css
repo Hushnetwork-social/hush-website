@@ -1,0 +1,88 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-hush-purple: #A78BFA;
+    --color-hush-purple-light: #C4B5FD;
+    --color-hush-purple-hover: #8B5CF6;
+    --color-hush-dark-bg: #111827;
+    --color-hush-dark-element: #23304b;
+    --color-hush-dark-outer: #374151;
+    --color-hush-text-primary: #efe8f6;
+    --color-hush-text-accent: #C4B5FD;
+  }
+
+  body {
+    background-color: var(--color-hush-dark-bg);
+    color: var(--color-hush-text-primary);
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes glow {
+  0% { box-shadow: 0 0 20px rgba(167, 139, 250, 0.3); }
+  100% { box-shadow: 0 0 40px rgba(167, 139, 250, 0.6); }
+}
+
+@keyframes slideUp {
+  0% { transform: translateY(100px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@layer base {
+  body {
+    background-color: var(--color-hush-dark-bg);
+    color: var(--color-hush-text-primary);
+  }
+}
+
+@layer utilities {
+  .glass-morphism {
+    background: rgba(35, 48, 75, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(167, 139, 250, 0.2);
+  }
+
+  .glow-text {
+    text-shadow: 0 0 20px rgba(196, 181, 253, 0.5);
+  }
+
+  .purple-gradient {
+    background: linear-gradient(135deg, #A78BFA 0%, #8B5CF6 100%);
+  }
+
+  .animated-gradient {
+    background: linear-gradient(
+      -45deg,
+      #A78BFA,
+      #8B5CF6,
+      #C4B5FD,
+      #A78BFA
+    );
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+  }
+
+  @keyframes gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+}
