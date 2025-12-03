@@ -12,7 +12,7 @@ const navLinks = [
   { href: "/governance" },
   { href: "/private-server" },
   { href: "/investing" },
-  { href: "/#features" },
+  { href: "/roadmap" },
   { href: "/live-demo" },
 ];
 

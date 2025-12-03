@@ -21,7 +21,7 @@ export default function Navbar() {
     { href: "/governance", text: "Governance" },
     { href: "/private-server", text: "Private Server" },
     { href: "/investing", text: "Investing" },
-    { href: "/#features", text: "Features" },
+    { href: "/roadmap", text: "Roadmap" },
   ];
 
   return (
