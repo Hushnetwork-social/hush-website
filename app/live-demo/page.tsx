@@ -54,7 +54,7 @@ export default function LiveDemoPage() {
                     We have a very raw but functional chat application that we are actively developing. This serves as a live demonstration of the HushNetwork's capabilities. As we are in the early stages, we are continuously fixing bugs and adding features. This chat-focused app showcases what we are building and allows you to experience the core functionalities of the network.
                 </p>
                 <motion.a
-                  href="https://github.com/HushNetwork/hush-client"
+                  href="https://chat.hushnetwork.social"
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="inline-flex items-center px-8 py-3 purple-gradient text-white text-lg font-semibold rounded-full shadow-lg hover:shadow-hush-purple/50 transform hover:scale-105 transition-all duration-300"
