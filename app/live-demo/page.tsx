@@ -1,8 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { HardHat, MessageSquare, ExternalLink, Info } from "lucide-react";
-import { useState } from "react";
+import { HardHat, MessageSquare, ExternalLink, Info, Loader2 } from "lucide-react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 
 // Windows icon SVG component
@@ -19,8 +19,56 @@ const AndroidIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
+interface ReleaseInfo {
+  version: string;
+  url: string;
+  filename: string;
+  size: string;
+}
+
+interface Downloads {
+  windows: ReleaseInfo & { loading: boolean };
+  android: ReleaseInfo & { loading: boolean };
+}
+
+const FALLBACK_URL = "https://github.com/aboimpinto/HushNetwork/releases/latest";
+
 export default function LiveDemoPage() {
   const [showAndroidHelp, setShowAndroidHelp] = useState(false);
+  const [downloads, setDownloads] = useState<Downloads>({
+    windows: { url: FALLBACK_URL, version: "", filename: "", size: "", loading: true },
+    android: { url: FALLBACK_URL, version: "", filename: "", size: "", loading: true }
+  });
+
+  useEffect(() => {
+    fetch("https://downloads.hushnetwork.social/releases.json")
+      .then(res => res.json())
+      .then(data => {
+        setDownloads({
+          windows: {
+            url: data.windows?.url || FALLBACK_URL,
+            version: data.windows?.version || "",
+            filename: data.windows?.filename || "",
+            size: data.windows?.size || "",
+            loading: false
+          },
+          android: {
+            url: data.android?.url || FALLBACK_URL,
+            version: data.android?.version || "",
+            filename: data.android?.filename || "",
+            size: data.android?.size || "",
+            loading: false
+          }
+        });
+      })
+      .catch(err => {
+        console.error("Failed to fetch releases:", err);
+        setDownloads({
+          windows: { url: FALLBACK_URL, version: "", filename: "", size: "", loading: false },
+          android: { url: FALLBACK_URL, version: "", filename: "", size: "", loading: false }
+        });
+      });
+  }, []);
 
   return (
     <main className="min-h-screen overflow-x-hidden">
@@ -92,28 +140,42 @@ export default function LiveDemoPage() {
                 <div className="flex flex-col sm:flex-row justify-center gap-4">
                   {/* Windows Download */}
                   <motion.a
-                    href="https://github.com/aboimpinto/HushNetwork/releases/latest"
+                    href={downloads.windows.url}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center px-6 py-3 border-2 border-hush-purple/50 text-hush-purple font-semibold rounded-full hover:bg-hush-purple/10 transform hover:scale-105 transition-all duration-300"
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
-                    <WindowsIcon className="w-5 h-5 mr-2" />
+                    {downloads.windows.loading ? (
+                      <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                    ) : (
+                      <WindowsIcon className="w-5 h-5 mr-2" />
+                    )}
                     Download for Windows
+                    {downloads.windows.version && (
+                      <span className="ml-2 text-xs opacity-70">v{downloads.windows.version}</span>
+                    )}
                   </motion.a>
 
                   {/* Android Download */}
                   <motion.a
-                    href="https://github.com/aboimpinto/HushNetwork/releases/latest"
+                    href={downloads.android.url}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center px-6 py-3 border-2 border-hush-purple/50 text-hush-purple font-semibold rounded-full hover:bg-hush-purple/10 transform hover:scale-105 transition-all duration-300"
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
-                    <AndroidIcon className="w-5 h-5 mr-2" />
+                    {downloads.android.loading ? (
+                      <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                    ) : (
+                      <AndroidIcon className="w-5 h-5 mr-2" />
+                    )}
                     Download for Android
+                    {downloads.android.version && (
+                      <span className="ml-2 text-xs opacity-70">v{downloads.android.version}</span>
+                    )}
                   </motion.a>
                 </div>
 
