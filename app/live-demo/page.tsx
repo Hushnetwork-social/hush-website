@@ -105,8 +105,9 @@ export default function LiveDemoPage() {
 
                   {/* Android Download */}
                   <motion.a
-                    href="/downloads/HushFeeds-v0.2.8-release.apk"
-                    download
+                    href="https://github.com/aboimpinto/HushNetwork/releases/latest"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="inline-flex items-center px-6 py-3 border-2 border-hush-purple/50 text-hush-purple font-semibold rounded-full hover:bg-hush-purple/10 transform hover:scale-105 transition-all duration-300"
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
