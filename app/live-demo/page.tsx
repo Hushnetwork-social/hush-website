@@ -1,56 +1,26 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { HardHat, MessageSquare, ExternalLink, Smartphone, Monitor, Download } from "lucide-react";
-import { useEffect, useState } from "react";
+import { HardHat, MessageSquare, ExternalLink, Info } from "lucide-react";
+import { useState } from "react";
 import Navbar from "@/components/Navbar";
 
-type DeviceType = "android" | "ios" | "windows" | "mac" | "linux" | "unknown";
+// Windows icon SVG component
+const WindowsIcon = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/>
+  </svg>
+);
 
-function detectDevice(): DeviceType {
-  if (typeof window === "undefined") return "unknown";
-
-  const userAgent = navigator.userAgent.toLowerCase();
-
-  // Mobile detection
-  if (/android/i.test(userAgent)) return "android";
-  if (/iphone|ipad|ipod/i.test(userAgent)) return "ios";
-
-  // Desktop detection
-  if (/win/i.test(userAgent)) return "windows";
-  if (/mac/i.test(userAgent)) return "mac";
-  if (/linux/i.test(userAgent)) return "linux";
-
-  return "unknown";
-}
-
-function isMobile(device: DeviceType): boolean {
-  return device === "android" || device === "ios";
-}
+// Android icon SVG component
+const AndroidIcon = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M17.523 15.341a.996.996 0 01-.998-.999c0-.548.45-.998.998-.998.55 0 1 .45 1 .998a1 1 0 01-1 .999m-11.046 0a.996.996 0 01-.998-.999c0-.548.45-.998.998-.998.55 0 1 .45 1 .998a1 1 0 01-1 .999m11.405-6.016l1.991-3.452a.416.416 0 00-.152-.567.416.416 0 00-.568.152L17.123 8.98c-1.467-.67-3.113-1.044-4.864-1.044-1.752 0-3.397.374-4.865 1.044L5.364 5.458a.416.416 0 00-.568-.152.416.416 0 00-.152.567l1.991 3.452C2.688 11.467 0 15.846 0 21h24c0-5.154-2.688-9.533-6.618-11.675"/>
+  </svg>
+);
 
 export default function LiveDemoPage() {
-  const [device, setDevice] = useState<DeviceType>("unknown");
-
-  useEffect(() => {
-    setDevice(detectDevice());
-  }, []);
-
-  const getDeviceLabel = () => {
-    switch (device) {
-      case "android": return "Android";
-      case "ios": return "iPhone";
-      case "windows": return "Windows";
-      case "mac": return "Mac";
-      case "linux": return "Linux";
-      default: return "your device";
-    }
-  };
-
-  const handleInstallClick = () => {
-    // TODO: Implement PWA install prompt for mobile
-    // TODO: Implement Tauri download for desktop
-    alert(`Download for ${getDeviceLabel()} coming soon!`);
-  };
+  const [showAndroidHelp, setShowAndroidHelp] = useState(false);
 
   return (
     <main className="min-h-screen overflow-x-hidden">
@@ -60,7 +30,7 @@ export default function LiveDemoPage() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-purple-glow rounded-full blur-3xl animate-float opacity-20" />
       </div>
 
-      <section className="relative pt-32 pb-8 px-6">
+      <section className="relative pt-32 pb-4 px-6">
         <div className="max-w-7xl mx-auto text-center">
           <motion.h1
             className="text-6xl md:text-8xl font-extrabold mb-6 glow-text text-hush-purple"
@@ -81,7 +51,7 @@ export default function LiveDemoPage() {
         </div>
       </section>
 
-      <section className="py-8 px-6">
+      <section className="py-6 px-6">
         <div className="max-w-3xl mx-auto text-center">
             <motion.div
                 className="glass-morphism p-8 rounded-3xl"
@@ -114,36 +84,69 @@ export default function LiveDemoPage() {
                 {/* Divider */}
                 <div className="flex items-center justify-center gap-4 my-6">
                   <div className="h-px bg-hush-text-primary/20 w-24" />
-                  <span className="text-hush-text-primary/50 text-sm">or install the app</span>
+                  <span className="text-hush-text-primary/50 text-sm">or download the app</span>
                   <div className="h-px bg-hush-text-primary/20 w-24" />
                 </div>
 
-                {/* Install/Download Button - Device Specific */}
-                <motion.button
-                  onClick={handleInstallClick}
-                  className="inline-flex items-center px-8 py-3 border-2 border-hush-purple/50 text-hush-purple text-lg font-semibold rounded-full hover:bg-hush-purple/10 transform hover:scale-105 transition-all duration-300"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  {isMobile(device) ? (
-                    <>
-                      <Smartphone className="w-5 h-5 mr-2" />
-                      Install on {getDeviceLabel()}
-                    </>
-                  ) : (
-                    <>
-                      <Monitor className="w-5 h-5 mr-2" />
-                      Download for {getDeviceLabel()}
-                    </>
-                  )}
-                </motion.button>
+                {/* Download Buttons */}
+                <div className="flex flex-col sm:flex-row justify-center gap-4">
+                  {/* Windows Download */}
+                  <motion.a
+                    href="https://github.com/aboimpinto/HushNetwork/releases/latest"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center px-6 py-3 border-2 border-hush-purple/50 text-hush-purple font-semibold rounded-full hover:bg-hush-purple/10 transform hover:scale-105 transition-all duration-300"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <WindowsIcon className="w-5 h-5 mr-2" />
+                    Download for Windows
+                  </motion.a>
 
-                <p className="text-hush-text-primary/40 text-xs mt-4">
-                  {isMobile(device)
-                    ? "Install as a Progressive Web App for the best mobile experience"
-                    : "Download the desktop app for the best experience"
-                  }
-                </p>
+                  {/* Android Download */}
+                  <motion.a
+                    href="/downloads/HushFeeds-v0.2.8-release.apk"
+                    download
+                    className="inline-flex items-center px-6 py-3 border-2 border-hush-purple/50 text-hush-purple font-semibold rounded-full hover:bg-hush-purple/10 transform hover:scale-105 transition-all duration-300"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <AndroidIcon className="w-5 h-5 mr-2" />
+                    Download for Android
+                  </motion.a>
+                </div>
+
+                {/* Android Installation Help */}
+                <div className="mt-4">
+                  <button
+                    onClick={() => setShowAndroidHelp(!showAndroidHelp)}
+                    className="inline-flex items-center text-hush-text-primary/50 text-sm hover:text-hush-purple transition-colors"
+                  >
+                    <Info className="w-4 h-4 mr-1" />
+                    Android installation instructions
+                  </button>
+
+                  {showAndroidHelp && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      className="mt-4 p-4 bg-hush-dark-bg/50 rounded-xl text-left text-sm text-hush-text-primary/70"
+                    >
+                      <p className="font-semibold text-hush-purple mb-2">How to install on Android:</p>
+                      <ol className="list-decimal list-inside space-y-2">
+                        <li>Download the APK file to your phone</li>
+                        <li>Enable <strong>Developer Mode</strong>: Go to Settings - About Phone - tap Build Number 7 times</li>
+                        <li>Enable <strong>Install from unknown sources</strong>: Settings - Apps - Special app access - Install unknown apps - Enable for your browser or file manager</li>
+                        <li>Open the downloaded APK file and tap <strong>Install</strong></li>
+                        <li>Open <strong>Hush Feeds</strong> and start chatting!</li>
+                      </ol>
+                      <p className="mt-3 text-xs text-hush-text-primary/50">
+                        Note: This is a beta version. The app connects to the production HushNetwork server.
+                      </p>
+                    </motion.div>
+                  )}
+                </div>
             </motion.div>
         </div>
       </section>
