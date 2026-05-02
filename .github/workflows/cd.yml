@@ -1,0 +1,184 @@
+name: CD - Hush Website
+
+on:
+  push:
+    tags:
+      - "Website-v*.*.*"
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to deploy, for example v1.0.1 or 1.0.1. Leave empty to use a timestamp."
+        required: false
+        type: string
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: hushnetwork-social/hush-website
+  NODE_VERSION: "20"
+  PNPM_VERSION: "10.22.0"
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
+
+      - name: Enable pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@${PNPM_VERSION} --activate
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Build
+        run: pnpm build
+
+  build-and-deploy:
+    needs: [ci]
+    runs-on: ubuntu-latest
+    environment: HushServerNode AWS CD
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Extract deployment version
+        id: version
+        run: |
+          set -euo pipefail
+
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            RAW_VERSION="${{ inputs.version }}"
+
+            if [[ -z "${RAW_VERSION}" ]]; then
+              VERSION="manual-$(date +%Y%m%d-%H%M%S)"
+            elif [[ "${RAW_VERSION}" =~ ^v?[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+              VERSION="v${RAW_VERSION#v}"
+            else
+              echo "::error::Invalid version '${RAW_VERSION}'. Use vMAJOR.MINOR.PATCH, for example v1.0.1."
+              exit 1
+            fi
+          else
+            TAG_NAME="${GITHUB_REF_NAME}"
+
+            if [[ ! "${TAG_NAME}" =~ ^Website-v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+              echo "::error::Invalid deployment tag '${TAG_NAME}'. Expected Website-vMAJOR.MINOR.PATCH."
+              exit 1
+            fi
+
+            VERSION="${TAG_NAME#Website-}"
+          fi
+
+          echo "version=${VERSION}" >> "${GITHUB_OUTPUT}"
+          echo "Deploying Hush Website ${VERSION}"
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ secrets.GHCR_USERNAME || vars.GHCR_USERNAME || github.actor }}
+          password: ${{ secrets.GHCR_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.version }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Summary - Image pushed
+        run: |
+          echo "### Docker Image Published" >> "${GITHUB_STEP_SUMMARY}"
+          echo "" >> "${GITHUB_STEP_SUMMARY}"
+          echo "- \`${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest\`" >> "${GITHUB_STEP_SUMMARY}"
+          echo "- \`${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.version }}\`" >> "${GITHUB_STEP_SUMMARY}"
+
+      - name: Setup SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.AWS_SSH_PRIVATE_KEY }}" > ~/.ssh/lightsail.pem
+          chmod 600 ~/.ssh/lightsail.pem
+          ssh-keyscan -H "${{ secrets.AWS_HOST }}" >> ~/.ssh/known_hosts 2>/dev/null
+
+      - name: Deploy to AWS Lightsail
+        env:
+          SSH_HOST: ${{ secrets.AWS_HOST }}
+          SSH_USER: ${{ secrets.AWS_SSH_USER }}
+          IMAGE_TAG: ${{ steps.version.outputs.version }}
+          GHCR_TOKEN: ${{ secrets.GHCR_TOKEN }}
+          GHCR_USERNAME: ${{ secrets.GHCR_USERNAME || vars.GHCR_USERNAME || github.actor }}
+          GHCR_IMAGE: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+        run: |
+          ssh -i ~/.ssh/lightsail.pem -o ServerAliveInterval=30 -o ServerAliveCountMax=10 "${SSH_USER}@${SSH_HOST}" "IMAGE_TAG=${IMAGE_TAG}" "GHCR_TOKEN=${GHCR_TOKEN}" "GHCR_USERNAME=${GHCR_USERNAME}" "GHCR_IMAGE=${GHCR_IMAGE}" 'bash -s' << 'DEPLOY_SCRIPT'
+            set -euo pipefail
+
+            CONTAINER_NAME="HushNetworkWebSite"
+
+            echo "Starting Hush Website deployment of version ${IMAGE_TAG}..."
+            echo "${GHCR_TOKEN}" | sudo docker login ghcr.io -u "${GHCR_USERNAME}" --password-stdin
+
+            echo "Pulling ${GHCR_IMAGE}:${IMAGE_TAG}..."
+            sudo docker pull "${GHCR_IMAGE}:${IMAGE_TAG}"
+
+            echo "Stopping old website container..."
+            sudo docker stop "${CONTAINER_NAME}" || true
+            sudo docker rm "${CONTAINER_NAME}" || true
+
+            echo "Starting ${CONTAINER_NAME}..."
+            sudo docker run -d \
+              --name "${CONTAINER_NAME}" \
+              --restart always \
+              -p 127.0.0.1:3000:80 \
+              "${GHCR_IMAGE}:${IMAGE_TAG}"
+
+            echo "Verifying deployment..."
+            sleep 5
+            if sudo docker ps --filter "name=^/${CONTAINER_NAME}$" --format "{{.Names}}" | grep -qx "${CONTAINER_NAME}"; then
+              sudo docker ps --filter "name=${CONTAINER_NAME}" --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
+            else
+              sudo docker logs "${CONTAINER_NAME}" --tail 50 || true
+              exit 1
+            fi
+
+            curl -fsS -I http://127.0.0.1:3000 >/dev/null
+            echo "Hush Website deployment complete."
+          DEPLOY_SCRIPT
+
+      - name: Cleanup SSH key
+        if: always()
+        run: rm -f ~/.ssh/lightsail.pem
+
+      - name: Deployment Summary
+        run: |
+          echo "### Hush Website Deployment Complete" >> "${GITHUB_STEP_SUMMARY}"
+          echo "" >> "${GITHUB_STEP_SUMMARY}"
+          echo "**Version:** \`${{ steps.version.outputs.version }}\`" >> "${GITHUB_STEP_SUMMARY}"
+          echo "**Image:** \`${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.version }}\`" >> "${GITHUB_STEP_SUMMARY}"
+          echo "**Container:** \`HushNetworkWebSite\`" >> "${GITHUB_STEP_SUMMARY}"
+          echo "**Target:** AWS Lightsail" >> "${GITHUB_STEP_SUMMARY}"
+          echo "**URL:** \`https://www.hushnetwork.social\`" >> "${GITHUB_STEP_SUMMARY}"
