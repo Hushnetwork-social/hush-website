@@ -1,7 +1,7 @@
 {
   "name": "hush-network-presentation",
   "version": "1.0.0",
-  "description": "HushNetwork Presentation Website - Eye-candy blockchain social network showcase",
+  "description": "HushNetwork website focused on HushVoting and privacy-first service infrastructure",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -11,9 +11,10 @@
   },
   "keywords": [
     "hushnetwork",
-    "blockchain",
-    "social-network",
-    "presentation"
+    "hushvoting",
+    "remote-voting",
+    "privacy",
+    "governance"
   ],
   "author": "",
   "license": "ISC",

@@ -15,6 +15,7 @@ export default {
         'hush-dark-bg': 'var(--color-hush-dark-bg)',
         'hush-dark-element': 'var(--color-hush-dark-element)',
         'hush-dark-outer': 'var(--color-hush-dark-outer)',
+        'hush-dark-well': 'var(--color-hush-dark-well)',
         'hush-text-primary': 'var(--color-hush-text-primary)',
         'hush-text-accent': 'var(--color-hush-text-accent)',
       },

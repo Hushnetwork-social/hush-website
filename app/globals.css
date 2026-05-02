@@ -10,12 +10,23 @@
     --color-hush-dark-bg: #111827;
     --color-hush-dark-element: #23304b;
     --color-hush-dark-outer: #374151;
+    --color-hush-dark-well: #151c33;
     --color-hush-text-primary: #efe8f6;
     --color-hush-text-accent: #C4B5FD;
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     background-color: var(--color-hush-dark-bg);
+    color: var(--color-hush-text-primary);
+    min-height: 100vh;
+  }
+
+  ::selection {
+    background: rgba(167, 139, 250, 0.32);
     color: var(--color-hush-text-primary);
   }
 }
@@ -51,7 +62,27 @@
   .glass-morphism {
     background: rgba(35, 48, 75, 0.7);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(167, 139, 250, 0.2);
+  }
+
+  .quiet-surface {
+    background: rgba(35, 48, 75, 0.78);
+    backdrop-filter: blur(12px);
+  }
+
+  .deep-well {
+    background: rgba(21, 28, 51, 0.86);
+  }
+
+  .soft-band {
+    background: rgba(35, 48, 75, 0.26);
+  }
+
+  .focus-ring {
+    outline: none;
+  }
+
+  .focus-ring:focus-visible {
+    box-shadow: 0 0 0 3px rgba(196, 181, 253, 0.55);
   }
 
   .glow-text {
