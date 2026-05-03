@@ -10,6 +10,7 @@ import {
   TrendingUp,
   Vote,
 } from "lucide-react";
+import { createPageMetadata } from "@/app/seo";
 import Navbar from "@/components/Navbar";
 import {
   IconCard,
@@ -21,6 +22,20 @@ import {
   SiteBackground,
   Surface,
 } from "@/components/Marketing";
+
+export const metadata = createPageMetadata({
+  title: "HushNetwork Roadmap | HushVoting! And Privacy Infrastructure",
+  description:
+    "Follow HushNetwork's product roadmap for HushVoting!, HushFeeds!, HushSocial!, private deployments, and privacy-first governance infrastructure.",
+  path: "/roadmap",
+  image: "voting",
+  keywords: [
+    "HushNetwork roadmap",
+    "HushVoting roadmap",
+    "privacy infrastructure roadmap",
+    "digital governance roadmap",
+  ],
+});
 
 type RoadmapStatus = "completed" | "in-progress" | "planned";
 type RoadmapItemState = "done" | "active" | "planned";

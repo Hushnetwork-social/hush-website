@@ -7,6 +7,7 @@ import {
   Users,
   Vote,
 } from "lucide-react";
+import { createPageMetadata } from "@/app/seo";
 import Navbar from "@/components/Navbar";
 import {
   IconCard,
@@ -19,6 +20,21 @@ import {
   SiteBackground,
   Surface,
 } from "@/components/Marketing";
+
+export const metadata = createPageMetadata({
+  title: "HushNetwork | Privacy Infrastructure For Governed Remote Voting",
+  description:
+    "HushNetwork powers HushVoting!, a privacy-first remote voting product for organizations that need stronger ballot privacy, role separation, and auditability.",
+  path: "/",
+  image: "network",
+  keywords: [
+    "HushNetwork",
+    "HushVoting",
+    "privacy-first remote voting",
+    "online voting for associations",
+    "digital governance",
+  ],
+});
 
 const proofPoints = [
   "Validated protected-election implementation baseline",

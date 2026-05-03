@@ -8,6 +8,7 @@ import {
   ServerCog,
   ShieldCheck,
 } from "lucide-react";
+import { createPageMetadata } from "@/app/seo";
 import Navbar from "@/components/Navbar";
 import {
   IconCard,
@@ -19,6 +20,21 @@ import {
   SiteBackground,
   Surface,
 } from "@/components/Marketing";
+
+export const metadata = createPageMetadata({
+  title: "Private HushNetwork Deployments | Managed Privacy Infrastructure",
+  description:
+    "Private deployment options for organizations that need tighter operating boundaries around voting, communication, and privacy-first application workflows.",
+  path: "/private-server",
+  image: "network",
+  keywords: [
+    "private HushNetwork",
+    "private voting deployment",
+    "managed HushVoting pilot",
+    "privacy infrastructure deployment",
+    "private network governance",
+  ],
+});
 
 const deploymentModels = [
   {

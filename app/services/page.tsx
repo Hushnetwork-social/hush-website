@@ -7,7 +7,9 @@ import {
   ShieldCheck,
   Vote,
 } from "lucide-react";
+import { createPageMetadata, serviceStackJsonLd } from "@/app/seo";
 import Navbar from "@/components/Navbar";
+import { StructuredData } from "@/components/StructuredData";
 import {
   IconCard,
   PageFooter,
@@ -19,6 +21,22 @@ import {
   SiteBackground,
   Surface,
 } from "@/components/Marketing";
+
+export const metadata = createPageMetadata({
+  title: "HushNetwork Services | HushVoting!, HushFeeds!, HushSocial!",
+  description:
+    "Explore the HushNetwork service stack: HushVoting! for governed remote voting, HushFeeds! for action notifications, and HushSocial! for community workflows.",
+  path: "/services",
+  image: "network",
+  keywords: [
+    "HushNetwork services",
+    "HushVoting",
+    "HushFeeds",
+    "HushSocial",
+    "privacy infrastructure",
+    "digital governance services",
+  ],
+});
 
 const serviceRows = [
   {
@@ -46,6 +64,7 @@ const serviceRows = [
 export default function ServicesPage() {
   return (
     <main className="min-h-screen overflow-hidden">
+      <StructuredData data={serviceStackJsonLd} />
       <SiteBackground />
       <Navbar />
 

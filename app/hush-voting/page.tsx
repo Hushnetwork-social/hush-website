@@ -10,7 +10,9 @@ import {
   Users,
   Vote,
 } from "lucide-react";
+import { createPageMetadata, hushVotingJsonLd } from "@/app/seo";
 import Navbar from "@/components/Navbar";
+import { StructuredData } from "@/components/StructuredData";
 import {
   IconCard,
   PageFooter,
@@ -21,6 +23,22 @@ import {
   SiteBackground,
   Surface,
 } from "@/components/Marketing";
+
+export const metadata = createPageMetadata({
+  title: "HushVoting! | Privacy-First Online Voting For Associations",
+  description:
+    "Run governed remote votes with organization-managed eligibility, private ballot workflows, trustee options, and audit-ready evidence for serious member decisions.",
+  path: "/hush-voting",
+  image: "voting",
+  keywords: [
+    "HushVoting",
+    "online voting for associations",
+    "secret ballot online voting",
+    "privacy-first voting software",
+    "member voting software",
+    "trustee online voting",
+  ],
+});
 
 const workflow = [
   {
@@ -50,6 +68,7 @@ const HUSH_VOTING_VIDEO_SRC = "/videos/hushvoting-launch-video.mp4";
 export default function HushVotingPage() {
   return (
     <main className="min-h-screen overflow-hidden">
+      <StructuredData data={hushVotingJsonLd} />
       <SiteBackground />
       <Navbar />
 

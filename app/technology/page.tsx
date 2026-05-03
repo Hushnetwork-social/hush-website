@@ -10,6 +10,7 @@ import {
   ShieldCheck,
   Users,
 } from "lucide-react";
+import { createPageMetadata } from "@/app/seo";
 import Navbar from "@/components/Navbar";
 import {
   IconCard,
@@ -21,6 +22,21 @@ import {
   SiteBackground,
   Surface,
 } from "@/components/Marketing";
+
+export const metadata = createPageMetadata({
+  title: "HushNetwork Technology | Protocol Omega And Privacy-First Voting",
+  description:
+    "Learn how HushNetwork supports HushVoting! with privacy boundaries, encrypted election artifacts, role-aware access, and tamper-evident records.",
+  path: "/technology",
+  image: "network",
+  keywords: [
+    "Protocol Omega",
+    "privacy-first voting technology",
+    "encrypted election artifacts",
+    "tamper-evident voting records",
+    "HushNetwork technology",
+  ],
+});
 
 const layers = [
   {
