@@ -83,8 +83,8 @@ export default function ServicesPage() {
               deployments are designed to work as one connected product stack.
             </p>
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-              <PrimaryLink href="/hush-voting">Start with HushVoting!</PrimaryLink>
-              <SecondaryLink href="/live-demo">Open live demo</SecondaryLink>
+              <PrimaryLink href="/contact">Request a HushVoting! pilot</PrimaryLink>
+              <SecondaryLink href="/hush-voting">Start with HushVoting!</SecondaryLink>
             </div>
           </div>
         </div>
@@ -109,7 +109,7 @@ export default function ServicesPage() {
               The notification surface for election owners, trustees, auditors, and voters when the
               workflow needs action.
             </ProductCard>
-            <ProductCard product="social" title="HushSocial!" label="Community surface" href="/live-demo">
+            <ProductCard product="social" title="HushSocial!" label="Community surface" href="/hushnetwork/private-social-network">
               The social layer that keeps organizations and members connected inside the broader
               HushNetwork ecosystem.
             </ProductCard>
@@ -221,8 +221,10 @@ export default function ServicesPage() {
             </p>
           </SectionHeader>
           <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-            <PrimaryLink href="/hush-voting">Explore HushVoting!</PrimaryLink>
-            <SecondaryLink href="/technology">Read infrastructure</SecondaryLink>
+            <PrimaryLink href="/contact">Request pilot conversation</PrimaryLink>
+            <SecondaryLink href="/hush-voting/election-software-vs-survey-tools">
+              Election software vs surveys
+            </SecondaryLink>
           </div>
         </div>
       </section>

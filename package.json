@@ -12,6 +12,10 @@
   "keywords": [
     "hushnetwork",
     "hushvoting",
+    "online-voting-software",
+    "election-software",
+    "association-voting",
+    "secret-ballot-online-voting",
     "remote-voting",
     "privacy",
     "governance"
@@ -24,6 +28,7 @@
     "gsap": "^3.15.0",
     "lucide-react": "^1.14.0",
     "next": "^16.2.4",
+    "nodemailer": "^8.0.7",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "recharts": "^3.8.1"
@@ -31,6 +36,7 @@
   "devDependencies": {
     "@next/eslint-plugin-next": "^16.2.4",
     "@types/node": "^24.10.1",
+    "@types/nodemailer": "^8.0.0",
     "@types/react": "^19.2.14",
     "autoprefixer": "^10.5.0",
     "eslint": "^9.39.1",

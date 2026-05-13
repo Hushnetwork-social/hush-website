@@ -28,7 +28,7 @@ The CD workflow:
 
 1. installs dependencies with pnpm;
 2. runs lint;
-3. builds the static Next.js export;
+3. builds the Next.js standalone server;
 4. builds and pushes a Docker image to GHCR;
 5. SSHs into AWS Lightsail;
 6. replaces the `HushNetworkWebSite` container.
@@ -94,6 +94,30 @@ It binds:
 ```text
 127.0.0.1:3000 -> container port 80
 ```
+
+## Contact Form Email Secrets
+
+The website contact form posts to `/api/contact` inside the Next.js server. The destination email is
+not exposed to the browser. Configure these GitHub environment secrets under `HushServerNode AWS CD`
+before deploying the contact form:
+
+| Secret | Purpose |
+|---|---|
+| `CONTACT_TO_EMAIL` | Private recipient email for HushVoting! requests. Set this to Paulo's destination address. |
+| `CONTACT_FROM_EMAIL` | Sender address used by the SMTP provider, for example `noreply@hushnetwork.social`. |
+| `CONTACT_SMTP_HOST` | SMTP server hostname. |
+| `CONTACT_SMTP_PORT` | SMTP server port, usually `587` for STARTTLS or `465` for implicit TLS. |
+| `CONTACT_SMTP_SECURE` | Set to `true` for implicit TLS on port `465`; otherwise `false`. |
+| `CONTACT_SMTP_USER` | SMTP username, if required by the provider. |
+| `CONTACT_SMTP_PASS` | SMTP password or app password, if required by the provider. |
+
+The contact form uses:
+
+- required requester email validation;
+- required message body validation;
+- a hidden honeypot field;
+- an HTTP-only cooldown cookie after successful submission;
+- in-memory IP-window throttling inside the website container.
 
 ## Verification
 

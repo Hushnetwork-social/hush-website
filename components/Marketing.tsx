@@ -199,6 +199,11 @@ export function PageFooter() {
         <span className="text-hush-text-primary">HushVoting!</span>{" "}
         <span className="text-hush-purple-light">is a product HushNetwork</span>
       </p>
+      <p className="mt-3">
+        <Link href="/contact" className="text-hush-text-primary transition hover:text-hush-purple-light">
+          Request a HushVoting! pilot conversation
+        </Link>
+      </p>
     </footer>
   );
 }

@@ -24,14 +24,18 @@ import {
 export const metadata = createPageMetadata({
   title: "HushNetwork | Privacy Infrastructure For Governed Remote Voting",
   description:
-    "HushNetwork powers HushVoting!, a privacy-first remote voting product for organizations that need stronger ballot privacy, role separation, and auditability.",
+    "HushNetwork powers HushVoting!, online voting software for associations and organizations that need stronger ballot privacy, role separation, and auditability.",
   path: "/",
   image: "network",
   keywords: [
     "HushNetwork",
     "HushVoting",
+    "online voting software",
+    "election software",
     "privacy-first remote voting",
     "online voting for associations",
+    "association voting",
+    "private online voting",
     "digital governance",
   ],
 });
@@ -59,8 +63,8 @@ export default function Home() {
           <div className="max-w-4xl">
             <h1 className="text-5xl font-semibold leading-[1.03] tracking-normal text-hush-text-primary md:text-7xl lg:text-8xl">
               <span className="block">HushNetwork powers</span>
-              <span className="block">privacy-first governed</span>
-              <span className="block">remote voting.</span>
+              <span className="block">online voting software</span>
+              <span className="block">for associations.</span>
             </h1>
             <p className="mt-7 max-w-3xl text-lg leading-8 text-hush-text-primary/78 md:text-xl">
               HushNetwork connects the election workflow, communication surface, and social layer.
@@ -69,8 +73,8 @@ export default function Home() {
               application ecosystem connected.
             </p>
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-              <PrimaryLink href="/hush-voting">Explore HushVoting!</PrimaryLink>
-              <SecondaryLink href="/live-demo">Open live demo</SecondaryLink>
+              <PrimaryLink href="/contact">Request a HushVoting! pilot</PrimaryLink>
+              <SecondaryLink href="/hush-voting">Explore HushVoting!</SecondaryLink>
             </div>
           </div>
         </div>
@@ -125,8 +129,12 @@ export default function Home() {
               </p>
             </SectionHeader>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <PrimaryLink href="/hush-voting">See the voting product</PrimaryLink>
-              <SecondaryLink href="/services">View all services</SecondaryLink>
+              <PrimaryLink href="/hush-voting/online-voting-for-associations">
+                Online voting for associations
+              </PrimaryLink>
+              <SecondaryLink href="/hush-voting/secret-ballot-online-voting">
+                Secret-ballot voting
+              </SecondaryLink>
             </div>
           </div>
 
@@ -213,7 +221,7 @@ export default function Home() {
             </p>
           </SectionHeader>
           <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-            <PrimaryLink href="/live-demo">Open live demo</PrimaryLink>
+            <PrimaryLink href="/contact">Request pilot conversation</PrimaryLink>
             <SecondaryLink href="/roadmap">View roadmap</SecondaryLink>
           </div>
         </div>

@@ -2,9 +2,9 @@ import type { Metadata, MetadataRoute } from "next";
 
 export const siteUrl = "https://www.hushnetwork.social";
 export const siteName = "HushNetwork";
-export const defaultTitle = "HushNetwork | Privacy Infrastructure For Governed Remote Voting";
+export const defaultTitle = "HushNetwork | Online Voting Software For Associations";
 export const defaultDescription =
-  "HushNetwork powers HushVoting!, a privacy-first remote voting product for organizations that need stronger ballot privacy, role separation, and auditability.";
+  "HushNetwork powers HushVoting!, online voting software for associations and organizations that need stronger ballot privacy, role separation, and auditability.";
 
 type ImageKey = "network" | "voting" | "feeds" | "social";
 
@@ -27,6 +27,31 @@ export const siteRoutes = [
     changeFrequency: "weekly",
   },
   {
+    path: "/hush-voting/online-voting-for-associations",
+    priority: 0.9,
+    changeFrequency: "monthly",
+  },
+  {
+    path: "/hush-voting/secret-ballot-online-voting",
+    priority: 0.88,
+    changeFrequency: "monthly",
+  },
+  {
+    path: "/hush-voting/election-software-vs-survey-tools",
+    priority: 0.88,
+    changeFrequency: "monthly",
+  },
+  {
+    path: "/hush-voting/board-election-software",
+    priority: 0.82,
+    changeFrequency: "monthly",
+  },
+  {
+    path: "/hush-voting/online-voting-switzerland",
+    priority: 0.82,
+    changeFrequency: "monthly",
+  },
+  {
     path: "/services",
     priority: 0.85,
     changeFrequency: "monthly",
@@ -37,8 +62,23 @@ export const siteRoutes = [
     changeFrequency: "monthly",
   },
   {
+    path: "/technology/verifiable-voting",
+    priority: 0.78,
+    changeFrequency: "monthly",
+  },
+  {
     path: "/private-server",
     priority: 0.7,
+    changeFrequency: "monthly",
+  },
+  {
+    path: "/hushnetwork/private-social-network",
+    priority: 0.62,
+    changeFrequency: "monthly",
+  },
+  {
+    path: "/contact",
+    priority: 0.86,
     changeFrequency: "monthly",
   },
   {
@@ -151,7 +191,7 @@ export const hushVotingJsonLd = {
   url: absoluteUrl("/hush-voting"),
   image: `${siteUrl}/icons/hushvoting_icon_transparent_subtle_glow.png`,
   description:
-    "Privacy-first remote voting for associations, clubs, cooperatives, NGOs, federations, and organizations that need stronger ballot privacy and auditability.",
+    "Privacy-first online voting software for associations, clubs, cooperatives, NGOs, federations, and organizations that need stronger ballot privacy and auditability.",
   offers: {
     "@type": "Offer",
     availability: "https://schema.org/PreOrder",

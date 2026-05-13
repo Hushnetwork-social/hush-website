@@ -133,8 +133,15 @@ jobs:
           GHCR_TOKEN: ${{ secrets.GHCR_TOKEN }}
           GHCR_USERNAME: ${{ secrets.GHCR_USERNAME || vars.GHCR_USERNAME || github.actor }}
           GHCR_IMAGE: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          CONTACT_TO_EMAIL: ${{ secrets.CONTACT_TO_EMAIL }}
+          CONTACT_FROM_EMAIL: ${{ secrets.CONTACT_FROM_EMAIL }}
+          CONTACT_SMTP_HOST: ${{ secrets.CONTACT_SMTP_HOST }}
+          CONTACT_SMTP_PORT: ${{ secrets.CONTACT_SMTP_PORT }}
+          CONTACT_SMTP_SECURE: ${{ secrets.CONTACT_SMTP_SECURE }}
+          CONTACT_SMTP_USER: ${{ secrets.CONTACT_SMTP_USER }}
+          CONTACT_SMTP_PASS: ${{ secrets.CONTACT_SMTP_PASS }}
         run: |
-          ssh -i ~/.ssh/lightsail.pem -o ServerAliveInterval=30 -o ServerAliveCountMax=10 "${SSH_USER}@${SSH_HOST}" "IMAGE_TAG=${IMAGE_TAG}" "GHCR_TOKEN=${GHCR_TOKEN}" "GHCR_USERNAME=${GHCR_USERNAME}" "GHCR_IMAGE=${GHCR_IMAGE}" 'bash -s' << 'DEPLOY_SCRIPT'
+          ssh -i ~/.ssh/lightsail.pem -o ServerAliveInterval=30 -o ServerAliveCountMax=10 "${SSH_USER}@${SSH_HOST}" "IMAGE_TAG=${IMAGE_TAG}" "GHCR_TOKEN=${GHCR_TOKEN}" "GHCR_USERNAME=${GHCR_USERNAME}" "GHCR_IMAGE=${GHCR_IMAGE}" "CONTACT_TO_EMAIL=${CONTACT_TO_EMAIL}" "CONTACT_FROM_EMAIL=${CONTACT_FROM_EMAIL}" "CONTACT_SMTP_HOST=${CONTACT_SMTP_HOST}" "CONTACT_SMTP_PORT=${CONTACT_SMTP_PORT}" "CONTACT_SMTP_SECURE=${CONTACT_SMTP_SECURE}" "CONTACT_SMTP_USER=${CONTACT_SMTP_USER}" "CONTACT_SMTP_PASS=${CONTACT_SMTP_PASS}" 'bash -s' << 'DEPLOY_SCRIPT'
             set -euo pipefail
 
             CONTAINER_NAME="HushNetworkWebSite"
@@ -153,6 +160,13 @@ jobs:
             sudo docker run -d \
               --name "${CONTAINER_NAME}" \
               --restart always \
+              -e CONTACT_TO_EMAIL="${CONTACT_TO_EMAIL}" \
+              -e CONTACT_FROM_EMAIL="${CONTACT_FROM_EMAIL}" \
+              -e CONTACT_SMTP_HOST="${CONTACT_SMTP_HOST}" \
+              -e CONTACT_SMTP_PORT="${CONTACT_SMTP_PORT}" \
+              -e CONTACT_SMTP_SECURE="${CONTACT_SMTP_SECURE}" \
+              -e CONTACT_SMTP_USER="${CONTACT_SMTP_USER}" \
+              -e CONTACT_SMTP_PASS="${CONTACT_SMTP_PASS}" \
               -p 127.0.0.1:3000:80 \
               "${GHCR_IMAGE}:${IMAGE_TAG}"
 

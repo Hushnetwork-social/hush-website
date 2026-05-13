@@ -6,18 +6,18 @@ RUN npm install -g pnpm && pnpm install
 COPY . .
 RUN pnpm build
 
-# Stage 2: Serve with NGINX
-FROM nginx:alpine
+# Stage 2: Run the Next.js standalone server
+FROM node:20-alpine AS runner
+WORKDIR /app
 
-# Remove default nginx website
-RUN rm -rf /usr/share/nginx/html/*
+ENV NODE_ENV=production
+ENV HOSTNAME=0.0.0.0
+ENV PORT=80
 
-# Copy the static files from the builder stage
-COPY --from=builder /app/out /usr/share/nginx/html
-
-# Copy custom NGINX configuration
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
 
 EXPOSE 80
 
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["node", "server.js"]

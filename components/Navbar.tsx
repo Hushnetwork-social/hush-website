@@ -24,6 +24,7 @@ export default function Navbar() {
     { href: "/technology", text: "Infrastructure" },
     { href: "/private-server", text: "Private Networks" },
     { href: "/roadmap", text: "Roadmap" },
+    { href: "/contact", text: "Contact" },
   ];
 
   return (
@@ -43,16 +44,16 @@ export default function Navbar() {
               {link.text}
             </Link>
           ))}
-          <Link href="/live-demo">
+          <Link href="/contact">
             <span className="ml-3 inline-flex rounded-lg bg-[linear-gradient(135deg,#A78BFA_0%,#8B5CF6_100%)] px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-hush-purple/18 transition hover:-translate-y-0.5 focus-ring">
-              Live Demo
+              Request Pilot
             </span>
           </Link>
         </div>
         <div className="flex items-center gap-3 md:hidden">
-          <Link href="/live-demo">
+          <Link href="/contact">
             <span className="inline-flex rounded-lg bg-[linear-gradient(135deg,#A78BFA_0%,#8B5CF6_100%)] px-3 py-2 text-sm font-semibold text-white shadow-lg shadow-hush-purple/18">
-              Live Demo
+              Pilot
             </span>
           </Link>
           <button

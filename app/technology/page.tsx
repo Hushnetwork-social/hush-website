@@ -32,6 +32,9 @@ export const metadata = createPageMetadata({
   keywords: [
     "Protocol Omega",
     "privacy-first voting technology",
+    "verifiable voting",
+    "auditable online voting",
+    "end-to-end verifiable voting",
     "encrypted election artifacts",
     "tamper-evident voting records",
     "HushNetwork technology",
@@ -84,7 +87,7 @@ export default function TechnologyPage() {
             </p>
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
               <PrimaryLink href="/hush-voting">See HushVoting!</PrimaryLink>
-              <SecondaryLink href="/private-server">Private deployments</SecondaryLink>
+              <SecondaryLink href="/technology/verifiable-voting">Verifiable voting</SecondaryLink>
             </div>
           </div>
         </div>
@@ -190,8 +193,8 @@ export default function TechnologyPage() {
             </p>
           </SectionHeader>
           <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-            <PrimaryLink href="/services">View services</PrimaryLink>
-            <SecondaryLink href="/roadmap">View roadmap</SecondaryLink>
+            <PrimaryLink href="/contact">Request pilot conversation</PrimaryLink>
+            <SecondaryLink href="/technology/verifiable-voting">Read verifiable voting</SecondaryLink>
           </div>
         </div>
       </section>

@@ -1,7 +1,9 @@
 import Image from "next/image";
+import Link from "next/link";
 import {
   BadgeCheck,
   ClipboardCheck,
+  FileCheck2,
   FileSearch,
   Gavel,
   KeyRound,
@@ -25,16 +27,22 @@ import {
 } from "@/components/Marketing";
 
 export const metadata = createPageMetadata({
-  title: "HushVoting! | Privacy-First Online Voting For Associations",
+  title: "HushVoting! | Online Voting Software For Associations",
   description:
-    "Run governed remote votes with organization-managed eligibility, private ballot workflows, trustee options, and audit-ready evidence for serious member decisions.",
+    "Privacy-first online voting software for associations, clubs, cooperatives, NGOs, and federations that need secret-ballot workflows, eligibility checkoff, trustee options, and audit-ready evidence.",
   path: "/hush-voting",
   image: "voting",
   keywords: [
     "HushVoting",
+    "online voting",
     "online voting for associations",
+    "online voting software for associations",
+    "election software",
+    "private online voting",
     "secret ballot online voting",
     "privacy-first voting software",
+    "association voting",
+    "club voting",
     "member voting software",
     "trustee online voting",
   ],
@@ -65,6 +73,39 @@ const workflow = [
 
 const HUSH_VOTING_VIDEO_SRC = "/videos/hushvoting-launch-video.mp4";
 
+const seoGuides = [
+  {
+    href: "/hush-voting/online-voting-for-associations",
+    title: "Online voting for associations",
+    text: "For clubs, cooperatives, NGOs, federations, and member organizations.",
+  },
+  {
+    href: "/hush-voting/secret-ballot-online-voting",
+    title: "Secret-ballot online voting",
+    text: "How HushVoting! separates checkoff from ballot choice without overclaiming anonymity.",
+  },
+  {
+    href: "/hush-voting/election-software-vs-survey-tools",
+    title: "Election software vs survey tools",
+    text: "Why serious organizational votes need more than a form or meeting poll.",
+  },
+  {
+    href: "/technology/verifiable-voting",
+    title: "Verifiable voting evidence",
+    text: "Technical posture, audit artifacts, and current validation limits.",
+  },
+  {
+    href: "/hush-voting/board-election-software",
+    title: "Board election software",
+    text: "For board, committee, trustee, and sensitive governance elections.",
+  },
+  {
+    href: "/hush-voting/online-voting-switzerland",
+    title: "Online voting Switzerland",
+    text: "Swiss private-organizational voting without public-election compliance overclaims.",
+  },
+] as const;
+
 export default function HushVotingPage() {
   return (
     <main className="min-h-screen overflow-hidden">
@@ -92,16 +133,17 @@ export default function HushVotingPage() {
               HushVoting!
             </p>
             <h1 className="mt-4 text-5xl font-semibold leading-tight text-hush-text-primary md:text-7xl">
-              Privacy-first remote voting for real organizational governance.
+              Online voting software for associations and real organizational governance.
             </h1>
             <p className="mt-7 max-w-3xl text-lg leading-8 text-hush-text-primary/76 md:text-xl">
               HushVoting! helps clubs, associations, cooperatives, NGOs, federations, and
-              organizational governance teams run digital votes with stronger privacy, clearer
-              process control, and more defensible outcomes than ad hoc polls or meeting chat.
+              organizational governance teams run private online voting workflows with stronger
+              ballot privacy, clearer process control, and more defensible outcomes than ad hoc
+              polls, survey tools, or meeting chat.
             </p>
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-              <PrimaryLink href="/live-demo">Open live demo</PrimaryLink>
-              <SecondaryLink href="/services">See service stack</SecondaryLink>
+              <PrimaryLink href="/contact">Request a HushVoting! pilot</PrimaryLink>
+              <SecondaryLink href="/live-demo">Open live demo</SecondaryLink>
             </div>
           </div>
 
@@ -136,11 +178,43 @@ export default function HushVotingPage() {
         </div>
       </section>
 
+      <section className="soft-band px-6 py-20">
+        <div className="mx-auto max-w-7xl">
+          <SectionHeader
+            eyebrow="Online voting software"
+            title="Designed for associations, clubs, cooperatives, NGOs, and federations."
+          >
+            <p>
+              HushVoting! is not a generic survey tool. It is election software for organizations
+              that need member eligibility, private ballot handling, governed result release, and an
+              evidence path for serious online elections.
+            </p>
+          </SectionHeader>
+
+          <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+            <IconCard icon={Users} title="Association voting">
+              Member organizations can start from their own voter eligibility records and governance
+              rules.
+            </IconCard>
+            <IconCard icon={LockKeyhole} title="Private online voting">
+              Eligibility, participation, and ballot choice are treated as separate surfaces.
+            </IconCard>
+            <IconCard icon={FileCheck2} title="Online elections">
+              Board elections, delegate votes, statute votes, and sensitive decisions need more than
+              a poll link.
+            </IconCard>
+            <IconCard icon={FileSearch} title="Verifiable evidence">
+              Final result and audit artifacts give authorized roles a review path after the vote.
+            </IconCard>
+          </div>
+        </div>
+      </section>
+
       <section className="px-6 py-20">
         <div className="mx-auto max-w-7xl">
           <SectionHeader
             eyebrow="Paper-equivalent model"
-            title="The authority can know who voted. The ballot remains separate."
+            title="Secret-ballot online voting with separate eligibility and ballot-choice surfaces."
           >
             <p>
               HushVoting! is designed around the same practical split people expect from a serious
@@ -164,6 +238,39 @@ export default function HushVotingPage() {
       </section>
 
       <section className="soft-band px-6 py-20">
+        <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+          <div>
+            <SectionHeader
+              align="left"
+              eyebrow="Election software vs surveys"
+              title="More serious than a survey. More focused than public-election infrastructure."
+            >
+              <p>
+                HushVoting! targets private organizational governance first: association voting,
+                board elections, cooperative decisions, NGO votes, club ballots, and federation
+                workflows that need trust after the meeting is over.
+              </p>
+            </SectionHeader>
+          </div>
+
+          <Surface className="p-5">
+            <div className="grid gap-4 md:grid-cols-2">
+              {[
+                "Eligibility and voting-right checkoff",
+                "Private ballot workflow",
+                "Trustee-threshold option for stronger separation",
+                "Final result and audit-ready evidence",
+              ].map(item => (
+                <div key={item} className="deep-well rounded-lg p-5">
+                  <p className="text-sm font-semibold text-hush-text-primary">{item}</p>
+                </div>
+              ))}
+            </div>
+          </Surface>
+        </div>
+      </section>
+
+      <section className="px-6 py-20">
         <div className="mx-auto max-w-7xl">
           <SectionHeader eyebrow="Election modes" title="Two operating models for different governance needs.">
             <p>
@@ -311,6 +418,48 @@ export default function HushVotingPage() {
               For feasibility, pilot, architecture, and validation conversations with institutions
               that need higher-scrutiny governance workflows.
             </IconCard>
+          </div>
+        </div>
+      </section>
+
+      <section className="px-6 py-20">
+        <div className="mx-auto max-w-7xl">
+          <SectionHeader eyebrow="SEO guides" title="Read the HushVoting! buyer guides.">
+            <p>
+              These pages answer the main search questions around online voting software,
+              secret-ballot workflows, election software, and verifiable voting evidence.
+            </p>
+          </SectionHeader>
+
+          <div className="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+            {seoGuides.map(guide => (
+              <Link key={guide.href} href={guide.href} className="focus-ring block h-full rounded-lg">
+                <Surface as="article" className="flex h-full flex-col transition hover:-translate-y-1 hover:bg-hush-dark-element/90">
+                  <h3 className="text-xl font-semibold text-hush-text-primary">{guide.title}</h3>
+                  <p className="mt-3 text-sm leading-6 text-hush-text-primary/72">{guide.text}</p>
+                  <p className="mt-auto pt-6 text-sm font-semibold text-hush-purple-light">
+                    Read guide
+                  </p>
+                </Surface>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="soft-band px-6 py-20">
+        <div className="mx-auto max-w-5xl text-center">
+          <SectionHeader title="Ready to discuss a HushVoting! pilot?">
+            <p>
+              The best first conversation is a real organizational vote where eligibility, privacy,
+              and evidence matter.
+            </p>
+          </SectionHeader>
+          <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+            <PrimaryLink href="/contact">Request a HushVoting! pilot</PrimaryLink>
+            <SecondaryLink href="/hush-voting/online-voting-for-associations">
+              Online voting for associations
+            </SecondaryLink>
           </div>
         </div>
       </section>

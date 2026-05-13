@@ -75,8 +75,8 @@ export default function PrivateServerPage() {
               closer operational support.
             </p>
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-              <PrimaryLink href="/hush-voting">Explore HushVoting!</PrimaryLink>
-              <SecondaryLink href="/live-demo">Open live demo</SecondaryLink>
+              <PrimaryLink href="/contact">Request a managed pilot</PrimaryLink>
+              <SecondaryLink href="/hush-voting">Explore HushVoting!</SecondaryLink>
             </div>
           </div>
         </div>
@@ -173,7 +173,7 @@ export default function PrivateServerPage() {
             </p>
           </SectionHeader>
           <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-            <PrimaryLink href="/hush-voting">Start with HushVoting!</PrimaryLink>
+            <PrimaryLink href="/contact">Request pilot conversation</PrimaryLink>
             <SecondaryLink href="/services">Back to services</SecondaryLink>
           </div>
         </div>
